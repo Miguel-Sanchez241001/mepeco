@@ -82,8 +82,7 @@ public class Main {
             params.put("usuario", "msanchez22");
             params.put("fechaImpresion", "25/09/20252");
             params.put("valorTotal", "$ 36,792.78");
-
-            // 3. Pasar la lista como parámetro
+            params.put("mostrarFechaImpresion", Boolean.FALSE);
             params.put("lista", notas);
 
             // 3) Cargar .jasper desde resources
@@ -107,7 +106,7 @@ public class Main {
             xlsxCfg.setRemoveEmptySpaceBetweenColumns(true);
             xlsxCfg.setWhitePageBackground(false);
             xlsxCfg.setIgnoreGraphics(true);
-            xlsxCfg.setPrintHeaderOnEachPage(false);
+      
             xlsx.setConfiguration(xlsxCfg);
             xlsx.exportReport();
 
@@ -122,7 +121,7 @@ public class Main {
             xlsCfg.setRemoveEmptySpaceBetweenColumns(true);
             xlsCfg.setWhitePageBackground(false);
             xlsCfg.setIgnoreGraphics(true);
-            xlsCfg.setPrintHeaderOnEachPage(false);
+
             xls.setConfiguration(xlsCfg);
             xls.exportReport();
 
