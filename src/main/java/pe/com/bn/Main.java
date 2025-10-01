@@ -2,13 +2,12 @@ package pe.com.bn;
 
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
-import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.export.*;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 
@@ -60,7 +59,7 @@ public class Main {
             notas.add(new NotaDetalle("18426359", "00068315964", "614", "$16,792.78"));
             notas.add(new NotaDetalle("18426360", "00068315965", "789", "$20,000.00"));
             notas.add(new NotaDetalle("18426359", "00068315964", "614", "$16,792.78"));
-            notas.add(new NotaDetalle("18426360", "00068315965", "789", "$20,000.00"));
+            notas.add(new NotaDetalle("18426360", "00068315965", "789 - RQWER ", "$20,000.00"));
             notas.add(new NotaDetalle("18426359", "00068315964", "614", "$16,792.78"));
             notas.add(new NotaDetalle("18426360", "00068315965", "789", "$20,000.00"));
             notas.add(new NotaDetalle("18426359", "00068315964", "614", "$16,792.78"));
@@ -82,7 +81,7 @@ public class Main {
             params.put("usuario", "msanchez22");
             params.put("fechaImpresion", "25/09/20252");
             params.put("valorTotal", "$ 36,792.78");
-            params.put("mostrarFechaImpresion", Boolean.FALSE);
+            params.put("mostrarFechaImpresion", Boolean.TRUE);
             params.put("lista", notas);
 
             // 3) Cargar .jasper desde resources
@@ -124,7 +123,17 @@ public class Main {
 
             xls.setConfiguration(xlsCfg);
             xls.exportReport();
-
+            // 8) HTML ✅
+            HtmlExporter html = new HtmlExporter();
+            html.setExporterInput(new SimpleExporterInput(jp));
+            SimpleHtmlExporterOutput htmlOut = new SimpleHtmlExporterOutput(new File("out/reporte_notas.html"));
+            // Si tu reporte incluye imágenes y no quieres archivos adicionales, puedes ignorarlas:
+            // (si requieres imágenes, mejor embederlas como base64 en el JRXML o usar un handler de recursos)
+            SimpleHtmlReportConfiguration htmlCfg = new SimpleHtmlReportConfiguration();
+            // htmlCfg.setRemoveEmptySpaceBetweenRows(true); // opcional
+            html.setExporterOutput(htmlOut);
+            html.setConfiguration(htmlCfg);
+            html.exportReport();
             System.out.println("✅ Generados: out/reporte_notas.pdf, .xlsx y .xls");
         } catch (Exception e) {
             e.printStackTrace();
